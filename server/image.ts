@@ -1,7 +1,6 @@
 "use server";
 
 import { generateText } from "ai";
-import fs from "node:fs";
 
 interface ImageInput {
   data: string; // base64 data
@@ -37,21 +36,20 @@ export async function generateImage(prompt: string, image?: ImageInput) {
     ],
   });
 
-  let fileName = "";
+  let imageData = "";
 
   for (const file of result.files) {
     if (file.mediaType.startsWith("image/")) {
-      const timestamp = Date.now();
-      fileName = `generated-${timestamp}.png`;
-
-      await fs.promises.writeFile(`public/${fileName}`, file.uint8Array);
+      // Convert to base64 and return as data URL instead of saving to disk
+      const base64 = Buffer.from(file.uint8Array).toString("base64");
+      imageData = `data:${file.mediaType};base64,${base64}`;
       break; // Solo procesar el primer archivo de imagen
     }
   }
 
-  if (!fileName) {
+  if (!imageData) {
     throw new Error("No se pudo generar ninguna imagen");
   }
 
-  return `/${fileName}`;
+  return imageData;
 }
