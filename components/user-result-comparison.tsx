@@ -14,6 +14,7 @@ export default function UserResultComparison({
   const [sliderPosition, setSliderPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [imageAspectRatio, setImageAspectRatio] = useState<number>(4 / 3);
 
   const handleMouseDown = () => setIsDragging(true);
   const handleMouseUp = () => setIsDragging(false);
@@ -67,7 +68,8 @@ export default function UserResultComparison({
 
       <div
         ref={containerRef}
-        className="relative w-full aspect-4/3 bg-gray-200 rounded-2xl overflow-hidden cursor-col-resize select-none group shadow-2xl"
+        className="relative w-full bg-gray-200 rounded-2xl overflow-hidden cursor-col-resize select-none group shadow-2xl"
+        style={{ aspectRatio: imageAspectRatio }}
         onMouseDown={handleMouseDown}
         onMouseLeave={handleMouseUp}
       >
@@ -76,7 +78,17 @@ export default function UserResultComparison({
           src={afterImage}
           alt="After - Your Christmas Transformation"
           className="w-full h-full object-cover"
-          onLoad={() => console.log("After image loaded:", afterImage)}
+          onLoad={(e) => {
+            const img = e.target as HTMLImageElement;
+            const ratio = img.naturalWidth / img.naturalHeight;
+            setImageAspectRatio(ratio);
+            console.log(
+              "After image loaded:",
+              afterImage,
+              "Aspect ratio:",
+              ratio
+            );
+          }}
           onError={() =>
             console.error("Error loading after image:", afterImage)
           }
@@ -114,12 +126,12 @@ export default function UserResultComparison({
         </div>
 
         {/* Labels */}
-        <div className="absolute top-6 left-6 bg-[#E63946] text-white px-5 py-2 rounded-full font-bold text-sm shadow-xl backdrop-blur-sm">
+        {/* <div className="absolute top-6 left-6 bg-[#E63946] text-white px-5 py-2 rounded-full font-bold text-sm shadow-xl backdrop-blur-sm">
           BEFORE
         </div>
         <div className="absolute top-6 right-6 bg-[#10B981] text-white px-5 py-2 rounded-full font-bold text-sm shadow-xl backdrop-blur-sm">
           AFTER
-        </div>
+        </div> */}
       </div>
 
       <p className="text-white text-center text-lg font-semibold drop-shadow-md">

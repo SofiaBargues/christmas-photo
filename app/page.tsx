@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import DemoBeforeAfter from "@/components/demo-before-after";
 import UserResultComparison from "@/components/user-result-comparison";
 import ImageUploadForm from "@/components/image-upload-form";
 import { generateImage } from "@/server/image";
+import Footer from "@/components/footer";
 
 export default function Home() {
   const [beforeImage, setBeforeImage] = useState<string | null>(null);
@@ -93,7 +93,7 @@ export default function Home() {
           </div>
 
           {/* Tarjeta única con imagen y botones */}
-          <div className="flex-1 flex items-center justify-center">
+          <div className="flex-1  flex items-center justify-center">
             <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border-2 border-white/30 shadow-2xl max-w-4xl w-full relative">
               {/* Decoraciones en las esquinas de la tarjeta */}
               <div
@@ -108,15 +108,11 @@ export default function Home() {
               >
                 🎄
               </div>
-              {/* Imagen generada */}
-              <div className="relative aspect-square max-h-[60vh] mx-auto mb-8">
-                <Image
-                  src={afterImage}
-                  alt="Generated Christmas Image"
-                  width={800}
-                  height={800}
-                  className="w-full h-full object-contain rounded-3xl shadow-2xl"
-                  priority
+              {/* Slider de antes y después */}
+              <div className="relative mb-8">
+                <UserResultComparison
+                  beforeImage={beforeImage}
+                  afterImage={afterImage}
                 />
               </div>
 
@@ -143,7 +139,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={handleNewGeneration}
-                  className="bg-[#E63946] hover:bg-[#DC2626] text-white font-bold py-4 px-8 rounded-2xl shadow-2xl transform transition-all duration-200 hover:scale-105 flex items-center justify-center gap-3 text-lg border-2 border-white/20 backdrop-blur-sm"
+                  className=" text-[#10B981] font-bold py-4 px-8 rounded-2xl shadow-2xl transform transition-all duration-200 hover:scale-105 flex items-center justify-center gap-3 text-lg border-2 border-white/20 backdrop-blur-sm"
                 >
                   <svg
                     className="w-6 h-6"
@@ -163,6 +159,7 @@ export default function Home() {
               </div>
             </div>
           </div>
+          <Footer />
         </div>
       </main>
     );
@@ -222,7 +219,7 @@ export default function Home() {
         />
       </div>
 
-      <div className="container mx-auto px-16 md:px-48 py-12 min-h-screen flex flex-col">
+      <div className="container mx-auto px-16 md:px-12 py-12 min-h-screen flex flex-col">
         {/* Hero section with title */}
         <div className="text-center mb-12 pt-8">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
@@ -239,10 +236,12 @@ export default function Home() {
             <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border-2 border-white/30 shadow-2xl h-full">
               {beforeImage ? (
                 afterImage ? (
-                  <UserResultComparison
-                    beforeImage={beforeImage}
-                    afterImage={afterImage}
-                  />
+                  <div className="relative mb-8">
+                    <UserResultComparison
+                      beforeImage={beforeImage}
+                      afterImage={afterImage}
+                    />
+                  </div>
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center gap-6">
                     <div className="text-center space-y-3">
@@ -279,6 +278,7 @@ export default function Home() {
             />
           </div>
         </div>
+        <Footer />
       </div>
     </main>
   );
