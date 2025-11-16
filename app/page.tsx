@@ -110,10 +110,12 @@ export default function Home() {
               </div>
               {/* Slider de antes y después */}
               <div className="relative mb-8">
-                <UserResultComparison
-                  beforeImage={beforeImage}
-                  afterImage={afterImage}
-                />
+                {beforeImage && afterImage && (
+                  <UserResultComparison
+                    beforeImage={beforeImage}
+                    afterImage={afterImage}
+                  />
+                )}
               </div>
 
               {/* Botones de acción dentro de la tarjeta */}
