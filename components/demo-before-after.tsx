@@ -105,13 +105,7 @@ export default function DemoBeforeAfter() {
           </div>
         </div>
 
-        {/* Labels */}
-        {/* <div className="absolute top-6 left-6 bg-[#E63946] text-white px-5 py-2 rounded-full font-bold text-sm shadow-xl backdrop-blur-sm">
-          BEFORE
-        </div>
-        <div className="absolute top-6 right-6 bg-[#10B981] text-white px-5 py-2 rounded-full font-bold text-sm shadow-xl backdrop-blur-sm">
-          AFTER
-        </div> */}
+       
       </div>
 
       <p className="text-white text-center text-lg font-semibold drop-shadow-md">

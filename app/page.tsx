@@ -81,18 +81,10 @@ export default function Home() {
   if (afterImage && !isLoading) {
     return (
       <main className="min-h-screen bg-gradient-to-b from-[#E96479] to-[#F5E6D3] relative overflow-hidden">
-        {/* Decoraciones reducidas para la vista de resultado */}
-        <div className="absolute left-4 top-4">
-          <div className="text-4xl opacity-60 animate-pulse">❄️</div>
-        </div>
-        <div className="absolute right-4 top-4">
-          <div className="text-4xl opacity-60 animate-pulse">🎄</div>
-        </div>
-
         <div className="container mx-auto px-8 py-8 min-h-screen flex flex-col">
           {/* Header con título */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
+            <h1 className="text-4xl md:text-5xl font-bold text-white pb-6 drop-shadow-lg">
               ✨ Your Christmas Magic is Ready! ✨
             </h1>
             <p className="text-white text-lg md:text-xl font-medium drop-shadow-md">
@@ -100,65 +92,76 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Imagen generada ocupando todo el espacio */}
-          <div className="flex-1 flex items-center justify-center mb-8">
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border-2 border-white/30 shadow-2xl max-w-4xl w-full">
-              <div className="relative aspect-square max-h-[70vh] mx-auto">
+          {/* Tarjeta única con imagen y botones */}
+          <div className="flex-1 flex items-center justify-center">
+            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border-2 border-white/30 shadow-2xl max-w-4xl w-full relative">
+              {/* Decoraciones en las esquinas de la tarjeta */}
+              <div
+                className="absolute -top-7 -left-4 text-4xl sm:text-5xl md:text-8xl animate-bounce z-10"
+                style={{ animationDuration: "3s", animationDelay: "10s" }}
+              >
+                ❄️
+              </div>
+              <div
+                className="absolute -bottom-2 -right-4 text-4xl sm:text-5xl md:text-9xl animate-bounce z-10"
+                style={{ animationDuration: "3s", animationDelay: "10s" }}
+              >
+                🎄
+              </div>
+              {/* Imagen generada */}
+              <div className="relative aspect-square max-h-[60vh] mx-auto mb-8">
                 <Image
                   src={afterImage}
                   alt="Generated Christmas Image"
                   width={800}
                   height={800}
-                  className="w-full h-full object-contain rounded-2xl shadow-2xl"
+                  className="w-full h-full object-contain rounded-3xl shadow-2xl"
                   priority
                 />
               </div>
-            </div>
-          </div>
 
-          {/* Botones de acción */}
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button
-              onClick={handleDownload}
-              size="lg"
-              className="bg-green-600 hover:bg-green-700 text-white font-bold py-6 px-8 rounded-2xl shadow-2xl transform transition-all duration-200 hover:scale-105 flex items-center gap-3 text-lg h-auto"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-              Download Image
-            </Button>
-            <Button
-              onClick={handleNewGeneration}
-              size="lg"
-              variant="destructive"
-              className="font-bold py-6 px-8 rounded-2xl shadow-2xl transform transition-all duration-200 hover:scale-105 flex items-center gap-3 text-lg h-auto"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                />
-              </svg>
-              Generate New Image
-            </Button>
+              {/* Botones de acción dentro de la tarjeta */}
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <button
+                  onClick={handleDownload}
+                  className="bg-[#10B981] hover:bg-[#059669] text-white font-bold py-4 px-8 rounded-2xl shadow-2xl transform transition-all duration-200 hover:scale-105 flex items-center justify-center gap-3 text-lg border-2 border-white/20 backdrop-blur-sm"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                  Download Image
+                </button>
+                <button
+                  onClick={handleNewGeneration}
+                  className="bg-[#E63946] hover:bg-[#DC2626] text-white font-bold py-4 px-8 rounded-2xl shadow-2xl transform transition-all duration-200 hover:scale-105 flex items-center justify-center gap-3 text-lg border-2 border-white/20 backdrop-blur-sm"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                    />
+                  </svg>
+                  Generate New Image
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </main>
@@ -168,10 +171,10 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#E96479] to-[#F5E6D3] relative overflow-hidden">
       {/* Left decorative column */}
-      <div className="absolute left-4 top-0 h-full w-40 flex flex-col justify-between py-12">
-        <div className="text-6xl md:text-8xl opacity-100 animate-pulse hover:scale-125 transition-all duration-300 cursor-pointer">
+      <div className="absolute left-4 top-0 h-full z-10 w-40 flex flex-col justify-between py-12">
+        {/* <div className="text-6xl md:text-8xl opacity-100 animate-pulse hover:scale-125 transition-all duration-300 cursor-pointer">
           ❄️
-        </div>
+        </div> */}
         <img
           src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/wreath-1SjpINKa6Yc8iKfYhEcSKogp0zfBKp.png"
           alt="Wreath"
@@ -191,27 +194,27 @@ export default function Home() {
       </div>
 
       {/* Right decorative column */}
-      <div className="absolute right-4 top-0 h-full w-40 flex flex-col justify-between py-12">
+      <div className="absolute items-end right-4 z-10 top-0 h-full w-40 flex flex-col justify-between py-12 ">
         <img
           src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/santa_flying_angle-hN5b3dbrnauvOrKxTe7mR9mwlQIdSb.png"
           alt="Santa"
           className="w-32 h-32 md:w-40 md:h-40 opacity-100 animate-bounce hover:scale-125 hover:rotate-6 transition-all duration-300 cursor-pointer"
           style={{ animationDuration: "3s" }}
         />
-        <div
+        {/* <div
           className="text-6xl md:text-8xl opacity-100 animate-pulse hover:scale-125 transition-all duration-300 cursor-pointer"
           style={{ animationDelay: "1s" }}
         >
           ❄️
+        </div> */}
+        <div className="text-4xl md:text-5xl opacity-100 hover:scale-125 hover:-rotate-12 transition-all duration-300 cursor-pointer">
+          🎁
         </div>
         <img
           src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/bell-sbTbotDAnGyOa2KDSN3CUHfuVKVhS1.png"
           alt="Bell"
-          className="w-24 h-24 md:w-32 md:h-32 opacity-100 hover:scale-110 hover:rotate-12 transition-all duration-300 cursor-pointer"
+          className="w-24 h-34 md:w-32 md:h-42 opacity-100 hover:scale-110 hover:rotate-12 transition-all duration-300 cursor-pointer"
         />
-        <div className="text-4xl md:text-5xl opacity-100 hover:scale-125 hover:-rotate-12 transition-all duration-300 cursor-pointer">
-          🎁
-        </div>
         <img
           src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sock-vULNSasFJrlb0VbfkL9rAJwPnb1HcQ.png"
           alt="Sock"
