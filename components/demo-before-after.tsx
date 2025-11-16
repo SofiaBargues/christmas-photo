@@ -7,10 +7,8 @@ export default function DemoBeforeAfter() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  const beforeImage =
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/dia-de-la-familia-1-EnYlG0bGb1aaRHCXme4PQ8Ksqj3bGG.jpg";
-  const afterImage =
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/generated-1763216268115-59A1QHi04SpMDLwPiAwaajeFG6ncjU.webp";
+  const beforeImage = "/demo-before.png";
+  const afterImage = "/demo-after.png";
 
   const handleMouseDown = () => setIsDragging(true);
   const handleMouseUp = () => setIsDragging(false);
@@ -104,8 +102,6 @@ export default function DemoBeforeAfter() {
             </div>
           </div>
         </div>
-
-       
       </div>
 
       <p className="text-white text-center text-lg font-semibold drop-shadow-md">
