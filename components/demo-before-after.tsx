@@ -15,7 +15,7 @@ export default function DemoBeforeAfter() {
 
   const updateSliderPosition = (clientX: number) => {
     if (!containerRef.current) return;
-    
+
     const rect = containerRef.current.getBoundingClientRect();
     const newPosition = ((clientX - rect.left) / rect.width) * 100;
     setSliderPosition(Math.max(0, Math.min(100, newPosition)));

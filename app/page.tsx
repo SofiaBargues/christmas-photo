@@ -221,7 +221,7 @@ export default function Home() {
         />
       </div>
 
-      <div className="container mx-auto px-16 md:px-12 py-12 min-h-screen flex flex-col">
+      <div className="container mx-auto px-0 md:px-12 py-12 min-h-screen flex flex-col">
         {/* Hero section with title */}
         <div className="text-center mb-12 pt-8">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
