@@ -72,7 +72,7 @@ export default function DemoBeforeAfter() {
         <img
           src={afterImage || "/placeholder.svg"}
           alt="After - Christmas Version"
-          className="w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
         />
 
         {/* Before image (clipped overlay) */}
@@ -83,8 +83,7 @@ export default function DemoBeforeAfter() {
           <img
             src={beforeImage || "/placeholder.svg"}
             alt="Before - Normal Version"
-            className="h-full w-full object-cover"
-            style={{ width: "200%" }}
+            className="w-full h-full object-cover object-left"
           />
         </div>
 
@@ -107,16 +106,16 @@ export default function DemoBeforeAfter() {
         </div>
 
         {/* Labels */}
-        <div className="absolute top-6 left-6 bg-[#E63946] text-white px-5 py-2 rounded-full font-bold text-sm shadow-xl backdrop-blur-sm">
+        {/* <div className="absolute top-6 left-6 bg-[#E63946] text-white px-5 py-2 rounded-full font-bold text-sm shadow-xl backdrop-blur-sm">
           BEFORE
         </div>
         <div className="absolute top-6 right-6 bg-[#10B981] text-white px-5 py-2 rounded-full font-bold text-sm shadow-xl backdrop-blur-sm">
           AFTER
-        </div>
+        </div> */}
       </div>
 
       <p className="text-white text-center text-lg font-semibold drop-shadow-md">
-        Transform your family photos with festive Christmas magic
+        Transform your photos with festive Christmas magic
       </p>
     </div>
   );
