@@ -7,9 +7,10 @@ const nextConfig: NextConfig = {
   },
   serverExternalPackages: ["fs"],
   experimental: {
+    turbopackFileSystemCacheForDev: true,
     serverActions: {
-      bodySizeLimit: '4mb'
-    }
+      bodySizeLimit: "4mb",
+    },
   },
 };
 
