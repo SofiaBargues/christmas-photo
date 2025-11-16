@@ -10,24 +10,39 @@ export default function DemoBeforeAfter() {
   const beforeImage = "/demo-before.png";
   const afterImage = "/demo-after.png";
 
-  const handleMouseDown = () => setIsDragging(true);
-  const handleMouseUp = () => setIsDragging(false);
+  const handleStart = () => setIsDragging(true);
+  const handleEnd = () => setIsDragging(false);
+
+  const updateSliderPosition = (clientX: number) => {
+    if (!containerRef.current) return;
+    
+    const rect = containerRef.current.getBoundingClientRect();
+    const newPosition = ((clientX - rect.left) / rect.width) * 100;
+    setSliderPosition(Math.max(0, Math.min(100, newPosition)));
+  };
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging || !containerRef.current) return;
+      if (!isDragging) return;
+      updateSliderPosition(e.clientX);
+    };
 
-      const rect = containerRef.current.getBoundingClientRect();
-      const newPosition = ((e.clientX - rect.left) / rect.width) * 100;
-      setSliderPosition(Math.max(0, Math.min(100, newPosition)));
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isDragging) return;
+      e.preventDefault(); // Prevent scrolling while dragging
+      updateSliderPosition(e.touches[0].clientX);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("mouseup", handleEnd);
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("touchend", handleEnd);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mouseup", handleEnd);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleEnd);
     };
   }, [isDragging]);
 
@@ -62,9 +77,10 @@ export default function DemoBeforeAfter() {
 
       <div
         ref={containerRef}
-        className="relative w-full aspect-4/3 bg-gray-200 rounded-2xl overflow-hidden cursor-col-resize select-none group shadow-2xl"
-        onMouseDown={handleMouseDown}
-        onMouseLeave={handleMouseUp}
+        className="relative w-full aspect-4/3 bg-gray-200 rounded-2xl overflow-hidden cursor-col-resize select-none group shadow-2xl touch-manipulation"
+        onMouseDown={handleStart}
+        onTouchStart={handleStart}
+        onMouseLeave={handleEnd}
       >
         {/* After image (background) */}
         <img
@@ -94,7 +110,7 @@ export default function DemoBeforeAfter() {
           }}
         >
           {/* Handle button */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-16 h-16 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform border-4 border-white/50">
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-16 h-16 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform border-4 border-white/50 touch-manipulation">
             <div className="flex gap-1">
               <div className="w-1 h-6 bg-[#E63946] rounded-full"></div>
               <div className="w-1 h-6 bg-[#E63946] rounded-full"></div>

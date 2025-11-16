@@ -15,33 +15,49 @@ export default function BeforeAfterComparison({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  const handleMouseDown = () => setIsDragging(true);
-  const handleMouseUp = () => setIsDragging(false);
+  const handleStart = () => setIsDragging(true);
+  const handleEnd = () => setIsDragging(false);
+
+  const updateSliderPosition = (clientX: number) => {
+    if (!containerRef.current) return;
+    
+    const rect = containerRef.current.getBoundingClientRect();
+    const newPosition = ((clientX - rect.left) / rect.width) * 100;
+    setSliderPosition(Math.max(0, Math.min(100, newPosition)));
+  };
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging || !containerRef.current) return;
+      if (!isDragging) return;
+      updateSliderPosition(e.clientX);
+    };
 
-      const rect = containerRef.current.getBoundingClientRect();
-      const newPosition = ((e.clientX - rect.left) / rect.width) * 100;
-      setSliderPosition(Math.max(0, Math.min(100, newPosition)));
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isDragging) return;
+      e.preventDefault(); // Prevent scrolling while dragging
+      updateSliderPosition(e.touches[0].clientX);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("mouseup", handleEnd);
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("touchend", handleEnd);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mouseup", handleEnd);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleEnd);
     };
   }, [isDragging]);
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full bg-gray-200 rounded-xl overflow-hidden cursor-col-resize select-none group"
-      onMouseDown={handleMouseDown}
-      onMouseLeave={handleMouseUp}
+      className="relative w-full h-full bg-gray-200 rounded-xl overflow-hidden cursor-col-resize select-none group touch-manipulation"
+      onMouseDown={handleStart}
+      onTouchStart={handleStart}
+      onMouseLeave={handleEnd}
     >
       <div className="absolute inset-0 w-full h-full">
         <img
@@ -61,11 +77,6 @@ export default function BeforeAfterComparison({
           src={beforeImage || "/placeholder.svg"}
           alt="Before"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            width: containerRef.current
-              ? `${containerRef.current.offsetWidth}px`
-              : "100%",
-          }}
         />
       </div>
 
@@ -77,8 +88,8 @@ export default function BeforeAfterComparison({
           transform: "translateX(-50%)",
         }}
       >
-        {/* Handle button */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+        {/* Handle button - larger touch target for mobile */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-12 h-12 md:w-12 md:h-12 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform touch-manipulation">
           <div className="flex gap-1">
             <div className="w-0.5 h-4 bg-[#E63946]"></div>
             <div className="w-0.5 h-4 bg-[#E63946]"></div>
