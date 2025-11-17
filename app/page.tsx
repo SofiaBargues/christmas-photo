@@ -170,7 +170,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#E96479] to-[#F5E6D3] relative overflow-hidden">
       {/* Left decorative column */}
-      <div className="absolute left-4 top-0 h-full z-10 w-40 flex flex-col justify-between py-12">
+      <div className="absolute left-4 top-0 h-full w-40 flex flex-col justify-between py-12">
         {/* <div className="text-6xl md:text-8xl opacity-100 animate-pulse hover:scale-125 transition-all duration-300 cursor-pointer">
           ❄️
         </div> */}
@@ -193,7 +193,7 @@ export default function Home() {
       </div>
 
       {/* Right decorative column */}
-      <div className="absolute items-end right-4 z-10 top-0 h-full w-40 flex flex-col justify-between py-12 ">
+      <div className="absolute items-end right-4 top-0 h-full w-40 flex flex-col justify-between py-12 ">
         <img
           src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/santa_flying_angle-hN5b3dbrnauvOrKxTe7mR9mwlQIdSb.png"
           alt="Santa"
