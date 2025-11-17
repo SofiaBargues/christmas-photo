@@ -6,6 +6,7 @@ import DemoBeforeAfter from "@/components/demo-before-after";
 import UserResultComparison from "@/components/user-result-comparison";
 import ImageUploadForm from "@/components/image-upload-form";
 import { generateImage } from "@/server/image";
+import { resizeImage } from "@/lib/utils";
 import Footer from "@/components/footer";
 
 export default function Home() {
@@ -17,7 +18,13 @@ export default function Home() {
     setIsLoading(true);
 
     try {
-      // Convert file to base64
+      // Resize the image if it's too large
+      const resizedFile = await resizeImage(file, 1024, 1024, 0.85);
+      
+      console.log(`Original file size: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+      console.log(`Resized file size: ${(resizedFile.size / 1024 / 1024).toFixed(2)}MB`);
+      
+      // Convert resized file to base64
       const reader = new FileReader();
       reader.onload = async (e) => {
         const originalImage = e.target?.result as string;
@@ -28,7 +35,7 @@ export default function Home() {
 
         // Extract base64 data without the data URL prefix
         const base64Data = originalImage.split(",")[1];
-        const mimeType = file.type;
+        const mimeType = resizedFile.type;
 
         try {
           // Call the generateImage function
@@ -54,7 +61,7 @@ export default function Home() {
           setIsLoading(false);
         }
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(resizedFile);
     } catch (error) {
       console.error("Error processing file:", error);
       setIsLoading(false);
