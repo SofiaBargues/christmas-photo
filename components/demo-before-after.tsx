@@ -1,50 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import BeforeAfterSlider from "./ui/before-after-slider";
 
 export default function DemoBeforeAfter() {
-  const [sliderPosition, setSliderPosition] = useState(50);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-
   const beforeImage = "/demo-before.png";
   const afterImage = "/demo-after.png";
-
-  const handleStart = () => setIsDragging(true);
-  const handleEnd = () => setIsDragging(false);
-
-  const updateSliderPosition = (clientX: number) => {
-    if (!containerRef.current) return;
-
-    const rect = containerRef.current.getBoundingClientRect();
-    const newPosition = ((clientX - rect.left) / rect.width) * 100;
-    setSliderPosition(Math.max(0, Math.min(100, newPosition)));
-  };
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging) return;
-      updateSliderPosition(e.clientX);
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (!isDragging) return;
-      e.preventDefault(); // Prevent scrolling while dragging
-      updateSliderPosition(e.touches[0].clientX);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleEnd);
-    window.addEventListener("touchmove", handleTouchMove, { passive: false });
-    window.addEventListener("touchend", handleEnd);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleEnd);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleEnd);
-    };
-  }, [isDragging]);
 
   return (
     <div className="w-full h-full flex flex-col gap-6">
@@ -75,49 +35,16 @@ export default function DemoBeforeAfter() {
         </div>
       </div>
 
-      <div
-        ref={containerRef}
-        className="relative w-full aspect-4/3 bg-gray-200 rounded-2xl overflow-hidden cursor-col-resize select-none group shadow-2xl touch-manipulation"
-        onMouseDown={handleStart}
-        onTouchStart={handleStart}
-        onMouseLeave={handleEnd}
-      >
-        {/* After image (background) */}
-        <img
-          src={afterImage || "/placeholder.svg"}
-          alt="After - Christmas Version"
-          className="absolute inset-0 w-full h-full object-cover"
+      <div className="relative w-full aspect-4/3 shadow-2xl">
+        <BeforeAfterSlider
+          beforeImage={beforeImage}
+          afterImage={afterImage}
+          beforeAlt="Before - Normal Version"
+          afterAlt="After - Christmas Version"
+          showLabels={false}
+          containerClassName="rounded-2xl"
+          handleSize="lg"
         />
-
-        {/* Before image (clipped overlay) */}
-        <div
-          className="absolute inset-0 h-full overflow-hidden"
-          style={{ width: `${sliderPosition}%` }}
-        >
-          <img
-            src={beforeImage || "/placeholder.svg"}
-            alt="Before - Normal Version"
-            className="w-full h-full object-cover object-left"
-          />
-        </div>
-
-        {/* Slider divider */}
-        <div
-          className="absolute top-0 bottom-0 w-1 bg-white shadow-2xl"
-          style={{
-            left: `${sliderPosition}%`,
-            transform: "translateX(-50%)",
-          }}
-        >
-          {/* Handle button */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-16 h-16 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform border-4 border-white/50 touch-manipulation">
-            <div className="flex gap-1">
-              <div className="w-1 h-6 bg-[#E63946] rounded-full"></div>
-              <div className="w-1 h-6 bg-[#E63946] rounded-full"></div>
-              <div className="w-1 h-6 bg-[#E63946] rounded-full"></div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <p className="text-white text-center text-lg font-semibold drop-shadow-md">
