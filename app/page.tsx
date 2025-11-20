@@ -20,10 +20,14 @@ export default function Home() {
     try {
       // Resize the image if it's too large
       const resizedFile = await resizeImage(file, 1024, 1024, 0.85);
-      
-      console.log(`Original file size: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
-      console.log(`Resized file size: ${(resizedFile.size / 1024 / 1024).toFixed(2)}MB`);
-      
+
+      console.log(
+        `Original file size: ${(file.size / 1024 / 1024).toFixed(2)}MB`
+      );
+      console.log(
+        `Resized file size: ${(resizedFile.size / 1024 / 1024).toFixed(2)}MB`
+      );
+
       // Convert resized file to base64
       const reader = new FileReader();
       reader.onload = async (e) => {

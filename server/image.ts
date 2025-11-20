@@ -1,11 +1,17 @@
 "use server";
 
 import { generateText } from "ai";
-
+import { GoogleGenerativeAIProviderOptions } from "@ai-sdk/google";
 interface ImageInput {
   data: string; // base64 data
   mimeType: string;
 }
+
+const googleProviderOptions: GoogleGenerativeAIProviderOptions = {
+  imageConfig: {
+    imageSize: "2K",
+  },
+};
 
 export async function generateImage(prompt: string, image?: ImageInput) {
   let content;
@@ -32,13 +38,16 @@ Eyes preservation**: The eyes must remain EXACTLY identical to the original phot
   }
 
   const result = await generateText({
-    model: "gemini-2.5-flash-image-preview",
+    model: "google/gemini-3-pro-image",
     messages: [
       {
         role: "user" as const,
         content,
       },
     ],
+    providerOptions: {
+      google: googleProviderOptions,
+    },
   });
 
   let imageData = "";
