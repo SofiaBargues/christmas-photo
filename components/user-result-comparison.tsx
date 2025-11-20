@@ -43,7 +43,7 @@ export default function UserResultComparison({
         </div>
       </div>
 
-      <div 
+      <div
         className="relative w-full shadow-2xl"
         style={{ aspectRatio: imageAspectRatio }}
       >
@@ -56,7 +56,7 @@ export default function UserResultComparison({
           containerClassName="rounded-2xl"
           handleSize="lg"
         />
-        
+
         {/* Hidden image to detect aspect ratio */}
         <img
           src={afterImage}
