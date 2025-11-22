@@ -14,7 +14,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { TextArea, Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { generateImage } from "@/server/image";
 import { useState, useRef } from "react";
 import { Loader2, X } from "lucide-react";
@@ -173,7 +174,7 @@ export function ImageGenerationForm() {
               <FormItem>
                 <FormLabel>Prompt</FormLabel>
                 <FormControl>
-                  <TextArea placeholder="Describe your image" {...field} />
+                  <Textarea placeholder="Describe your image" {...field} />
                 </FormControl>
                 <FormDescription>
                   Describe the image you want to generate.
