@@ -61,18 +61,6 @@ export default function BeforeAfterSlider({
     };
   }, [isDragging]);
 
-  const handleSizeClasses = {
-    sm: "w-12 h-12",
-    md: "w-14 h-14",
-    lg: "w-16 h-16",
-  };
-
-  const handleIconSizes = {
-    sm: "w-0.5 h-4",
-    md: "w-0.5 h-5",
-    lg: "w-1 h-6",
-  };
-
   return (
     <div
       ref={containerRef}
@@ -89,39 +77,30 @@ export default function BeforeAfterSlider({
       />
 
       {/* Before image (clipped overlay) */}
-      <div
-        className="absolute inset-0 h-full overflow-hidden"
-        style={{ width: `${sliderPosition}%` }}
-      >
-        <img
-          src={beforeImage || "/placeholder.svg"}
-          alt={beforeAlt}
-          className="w-full h-full object-cover object-left"
-        />
-      </div>
+      <img
+        src={beforeImage || "/placeholder.svg"}
+        alt={beforeAlt}
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+      />
 
       {/* Slider divider */}
       <div
-        className="absolute top-0 bottom-0 w-1 bg-white shadow-2xl"
+        className="absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)]"
         style={{
           left: `${sliderPosition}%`,
           transform: "translateX(-50%)",
         }}
       >
         {/* Handle button */}
-        <div
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full ${handleSizeClasses[handleSize]} flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform border-4 border-white/50 touch-manipulation`}
-        >
-          <div className="flex gap-1">
-            <div
-              className={`${handleIconSizes[handleSize]} bg-[#E63946] rounded-full`}
-            ></div>
-            <div
-              className={`${handleIconSizes[handleSize]} bg-[#E63946] rounded-full`}
-            ></div>
-            <div
-              className={`${handleIconSizes[handleSize]} bg-[#E63946] rounded-full`}
-            ></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#1a1a1a] rounded-full w-8 h-16 flex items-center justify-center shadow-2xl border-2 border-white touch-manipulation">
+          <div className="grid grid-cols-2 gap-1">
+            <div className="w-1 h-1 bg-white rounded-full"></div>
+            <div className="w-1 h-1 bg-white rounded-full"></div>
+            <div className="w-1 h-1 bg-white rounded-full"></div>
+            <div className="w-1 h-1 bg-white rounded-full"></div>
+            <div className="w-1 h-1 bg-white rounded-full"></div>
+            <div className="w-1 h-1 bg-white rounded-full"></div>
           </div>
         </div>
       </div>
@@ -129,10 +108,10 @@ export default function BeforeAfterSlider({
       {/* Labels */}
       {showLabels && (
         <>
-          <div className="absolute top-4 left-4 bg-[#E63946] text-white px-4 py-2 rounded-lg font-bold text-sm shadow-lg">
+          <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm text-white px-3 py-1 rounded-md font-bold text-xs tracking-wider shadow-lg">
             BEFORE
           </div>
-          <div className="absolute top-4 right-4 bg-[#10B981] text-white px-4 py-2 rounded-lg font-bold text-sm shadow-lg">
+          <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white px-3 py-1 rounded-md font-bold text-xs tracking-wider shadow-lg">
             AFTER
           </div>
         </>
