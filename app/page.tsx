@@ -119,7 +119,7 @@ export default function Page() {
           </p>
         </div>
         <a
-          href="https://github.com"
+          href="https://github.com/SofiaBargues/christmas-photo"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 bg-[#F5E6D3]/10 hover:bg-[#F5E6D3]/20 px-3 py-1.5 rounded-full transition-colors text-xs md:text-sm font-medium"
