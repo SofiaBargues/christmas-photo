@@ -2,9 +2,17 @@
 
 import { generateText } from "ai";
 import { GoogleGenerativeAIProviderOptions } from "@ai-sdk/google";
+import { checkRateLimit, RateLimitInfo } from "./ratelimit";
+
 interface ImageInput {
   data: string; // base64 data
   mimeType: string;
+}
+
+export interface GenerateImageResult {
+  imageData: string | null;
+  rateLimitInfo: RateLimitInfo;
+  error?: string;
 }
 
 const googleProviderOptions: GoogleGenerativeAIProviderOptions = {
@@ -13,7 +21,18 @@ const googleProviderOptions: GoogleGenerativeAIProviderOptions = {
   },
 };
 
-export async function generateImage(prompt: string, image?: ImageInput) {
+export async function generateImage(prompt: string, image?: ImageInput): Promise<GenerateImageResult> {
+  // Check rate limit first
+  const rateLimitInfo = await checkRateLimit();
+  
+  if (!rateLimitInfo.success) {
+    return {
+      imageData: null,
+      rateLimitInfo,
+      error: "Rate limit exceeded. Please try again tomorrow.",
+    };
+  }
+
   let content;
 
   if (image) {
@@ -62,8 +81,15 @@ Eyes preservation**: The eyes must remain EXACTLY identical to the original phot
   }
 
   if (!imageData) {
-    throw new Error("No se pudo generar ninguna imagen");
+    return {
+      imageData: null,
+      rateLimitInfo,
+      error: "No se pudo generar ninguna imagen",
+    };
   }
 
-  return imageData;
+  return {
+    imageData,
+    rateLimitInfo,
+  };
 }

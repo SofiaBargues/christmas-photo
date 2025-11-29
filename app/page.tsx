@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import BeforeAfterSlider from "@/components/ui/before-after-slider";
 import { generateImage } from "@/server/image";
+import { getRateLimitStatus, RateLimitInfo } from "@/server/ratelimit";
 import { resizeImage } from "@/lib/utils";
 
 export default function Page() {
@@ -30,7 +31,14 @@ export default function Page() {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [rateLimitInfo, setRateLimitInfo] = useState<RateLimitInfo | null>(null);
+  const [rateLimitError, setRateLimitError] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Fetch rate limit status on mount
+  useEffect(() => {
+    getRateLimitStatus().then(setRateLimitInfo).catch(console.error);
+  }, []);
 
   useEffect(() => {
     audioRef.current = new Audio(
@@ -64,6 +72,13 @@ export default function Page() {
   const togglePrompt = () => setShowPrompt(!showPrompt);
 
   const handleUpload = async (file: File) => {
+    // Check rate limit before starting
+    if (rateLimitInfo && rateLimitInfo.remaining <= 0) {
+      setRateLimitError("You've reached your daily limit. Come back tomorrow to generate more images.");
+      return;
+    }
+
+    setRateLimitError(null);
     setIsGenerating(true);
     const url = URL.createObjectURL(file);
     setPreviewImage(url);
@@ -83,9 +98,15 @@ export default function Page() {
             mimeType: mimeType,
           });
 
-          if (result) {
-            setUploadedImage(result);
-            // setView("result");
+          // Update rate limit info from response
+          setRateLimitInfo(result.rateLimitInfo);
+
+          if (result.imageData) {
+            setUploadedImage(result.imageData);
+          } else if (result.error) {
+            console.error("Error:", result.error);
+            setRateLimitError(result.error);
+            setView("upload");
           } else {
             console.error("No result returned");
             setView("upload");
@@ -184,6 +205,8 @@ export default function Page() {
               isGenerating={isGenerating}
               previewImage={previewImage}
               resultImage={uploadedImage}
+              rateLimitInfo={rateLimitInfo}
+              rateLimitError={rateLimitError}
               onReset={() => {
                 setUploadedImage(null);
                 setPreviewImage(null);
@@ -221,7 +244,6 @@ export default function Page() {
 }
 
 function LandingView({
-  onStart,
   onUpload,
   showPrompt,
   prompt,
@@ -229,6 +251,8 @@ function LandingView({
   isGenerating,
   previewImage,
   resultImage,
+  rateLimitInfo,
+  rateLimitError,
   onReset,
 }: {
   onStart: () => void;
@@ -239,6 +263,8 @@ function LandingView({
   isGenerating: boolean;
   previewImage: string | null;
   resultImage: string | null;
+  rateLimitInfo: RateLimitInfo | null;
+  rateLimitError: string | null;
   onReset: () => void;
 }) {
   const [dragActive, setDragActive] = useState(false);
@@ -390,8 +416,35 @@ function LandingView({
                 The elves are working on your photo
               </p>
             </div>
+          ) : rateLimitInfo && rateLimitInfo.remaining <= 0 ? (
+            <div className="flex flex-col items-center gap-4 w-full px-6 py-4">
+              <div className="w-16 h-16 rounded-full bg-[#1a0505]/10 flex items-center justify-center">
+                <Sparkles className="w-8 h-8 text-[#1a0505]/60" />
+              </div>
+              <p className="font-serif text-xl text-[#1a0505]">
+                You&apos;ve used all your images for today!
+              </p>
+              <p className="text-sm text-[#1a0505]/60 text-center">
+                Come back tomorrow to create more Christmas magic.
+              </p>
+              <div className="text-xs text-[#1a0505]/40">
+                0 of {rateLimitInfo.limit} images available
+              </div>
+            </div>
           ) : (
             <div className="flex flex-col items-center gap-4 w-full px-6">
+              {rateLimitError && (
+                <div className="w-full bg-red-100 border border-red-300 rounded-lg p-3 text-xs text-red-800">
+                  {rateLimitError}
+                </div>
+              )}
+              
+              {rateLimitInfo && (
+                <div className="w-full bg-[#1a0505]/5 rounded-lg p-2 text-xs text-[#1a0505]/80 border border-[#1a0505]/10 text-center">
+                  <span className="font-medium">{rateLimitInfo.remaining}</span> of {rateLimitInfo.limit} images available today
+                </div>
+              )}
+              
               <div className="w-full bg-[#1a0505]/5 rounded-lg p-3 text-xs text-[#1a0505]/80 border border-[#1a0505]/10">
                 <strong>Pro tip:</strong> Make sure all faces are clearly
                 visible and well-lit for the best results!
