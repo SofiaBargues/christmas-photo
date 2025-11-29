@@ -31,7 +31,9 @@ export default function Page() {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [rateLimitInfo, setRateLimitInfo] = useState<RateLimitInfo | null>(null);
+  const [rateLimitInfo, setRateLimitInfo] = useState<RateLimitInfo | null>(
+    null
+  );
   const [rateLimitError, setRateLimitError] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -74,7 +76,9 @@ export default function Page() {
   const handleUpload = async (file: File) => {
     // Check rate limit before starting
     if (rateLimitInfo && rateLimitInfo.remaining <= 0) {
-      setRateLimitError("You've reached your daily limit. Come back tomorrow to generate more images.");
+      setRateLimitError(
+        "You've reached your daily limit. Come back tomorrow to generate more images."
+      );
       return;
     }
 
@@ -438,13 +442,14 @@ function LandingView({
                   {rateLimitError}
                 </div>
               )}
-              
+
               {rateLimitInfo && (
                 <div className="w-full bg-[#1a0505]/5 rounded-lg p-2 text-xs text-[#1a0505]/80 border border-[#1a0505]/10 text-center">
-                  <span className="font-medium">{rateLimitInfo.remaining}</span> of {rateLimitInfo.limit} images available today
+                  <span className="font-medium">{rateLimitInfo.remaining}</span>{" "}
+                  of {rateLimitInfo.limit} images available today
                 </div>
               )}
-              
+
               <div className="w-full bg-[#1a0505]/5 rounded-lg p-3 text-xs text-[#1a0505]/80 border border-[#1a0505]/10">
                 <strong>Pro tip:</strong> Make sure all faces are clearly
                 visible and well-lit for the best results!

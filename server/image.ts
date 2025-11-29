@@ -21,10 +21,13 @@ const googleProviderOptions: GoogleGenerativeAIProviderOptions = {
   },
 };
 
-export async function generateImage(prompt: string, image?: ImageInput): Promise<GenerateImageResult> {
+export async function generateImage(
+  prompt: string,
+  image?: ImageInput
+): Promise<GenerateImageResult> {
   // Check rate limit first
   const rateLimitInfo = await checkRateLimit();
-  
+
   if (!rateLimitInfo.success) {
     return {
       imageData: null,
