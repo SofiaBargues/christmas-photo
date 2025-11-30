@@ -131,7 +131,7 @@ export default function Page() {
   };
 
   return (
-    <main className="relative min-h-screen pb-40 w-full overflow-x-hidden bg-[#1a0505] text-[#F5E6D3] selection:bg-[#D4AF37] selection:text-[#1a0505]">
+    <main className="relative min-h-screen pb-40 sm:pb-0  w-full overflow-x-hidden bg-[#1a0505] text-[#F5E6D3] selection:bg-[#D4AF37] selection:text-[#1a0505]">
       <SnowEffect isEnabled={isSnowEnabled} />
 
       <div className="absolute top-0 left-0 w-full p-6 md:p-12 z-20 flex justify-between items-start  ">
