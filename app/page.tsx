@@ -131,10 +131,10 @@ export default function Page() {
   };
 
   return (
-    <main className="relative min-h-screen w-full overflow-x-hidden bg-[#1a0505] text-[#F5E6D3] selection:bg-[#D4AF37] selection:text-[#1a0505]">
+    <main className="relative min-h-screen pb-40 w-full overflow-x-hidden bg-[#1a0505] text-[#F5E6D3] selection:bg-[#D4AF37] selection:text-[#1a0505]">
       <SnowEffect isEnabled={isSnowEnabled} />
 
-      <div className="absolute top-0 left-0 w-full p-6 md:p-12 z-20 flex justify-between items-start">
+      <div className="absolute top-0 left-0 w-full p-6 md:p-12 z-20 flex justify-between items-start  ">
         <div className="flex flex-col">
           <h1 className="text-xs md:text-sm font-bold tracking-widest uppercase text-[#F5E6D3]/60">
             {/* Riven */}
@@ -291,9 +291,10 @@ function LandingView({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, y: -20 }}
-      className="w-full max-w-7xl h-auto md:h-full grid grid-cols-1 sm:grid-cols-2 items-center justify-items-center relative z-10 gap-y-16 md:gap-24 px-4 md:px-[45px] py-8 md:py-[67px]"
+      className="w-full max-w-7xl h-auto md:h-full grid grid-cols-1 sm:grid-cols-2 items-center justify-items-center relative z-10 gap-y-32
+       md:gap-24 px-4 md:px-[45px] md:py-[67px]"
     >
-      <div className="order-1 w-full flex flex-col items-center md:items-start text-center md:text-left mt-8 md:mt-0">
+      <div className="order-1 w-full flex flex-col items-center md:items-start text-center sm:text-left ">
         <motion.h2
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -306,7 +307,7 @@ function LandingView({
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="mt-4 text-lg text-[#F5E6D3]/80 max-w-md"
+          className="md:mt-4 text-md text-[#F5E6D3]/80 max-w-md"
         >
           Transform any photo into a festive masterpiece. Add Christmas
           decorations and costumes instantly.
