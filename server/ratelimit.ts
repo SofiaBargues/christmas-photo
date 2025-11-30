@@ -11,9 +11,12 @@ const redis = new Redis({
 });
 
 // Create a new ratelimiter that allows 2 requests per day
+
+const limitAmount = process.env.NODE_ENV === "production" ? 2 : 200;
+
 const ratelimit = new Ratelimit({
   redis,
-  limiter: Ratelimit.fixedWindow(2, "1 d"), // 2 requests per day
+  limiter: Ratelimit.fixedWindow(limitAmount, "1 d"), // 2 requests per day
   analytics: true,
   prefix: "christmas-photo",
 });

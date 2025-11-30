@@ -25,9 +25,12 @@ export default function Page() {
   const [isSnowEnabled, setIsSnowEnabled] = useState(true);
   const [showPrompt, setShowPrompt] = useState(false);
   const [prompt, setPrompt] = useState("");
+  // const [view, setView] = useState<
+  //   "landing" | "upload" | "processing" | "result"
+  // >("landing");
   const [view, setView] = useState<
     "landing" | "upload" | "processing" | "result"
-  >("landing");
+  >("result");
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -686,6 +689,9 @@ function ResultView({
         <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
           <button className="bg-[#F5E6D3] text-[#1a0505] px-8 py-3 rounded-full font-medium hover:scale-105 transition-transform">
             Download
+          </button>
+          <button className="bg-[#f5e6d38c] text-[#1a0505] px-8 py-3 rounded-full font-medium hover:scale-105 transition-transform">
+            Share
           </button>
           <button
             onClick={onReset}

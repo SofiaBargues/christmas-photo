@@ -1,4 +1,5 @@
 "use server";
+const MOCK = true;
 
 import { generateText } from "ai";
 import { GoogleGenerativeAIProviderOptions } from "@ai-sdk/google";
@@ -27,6 +28,24 @@ export async function generateImage(
 ): Promise<GenerateImageResult> {
   // Check rate limit first
   const rateLimitInfo = await checkRateLimit();
+
+  if (MOCK) {
+    // Simulate delay and return the same image
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    if (image && image.data) {
+      // Return the original image data
+      return {
+        imageData: `data:${image.mimeType};base64,${image.data}`,
+        rateLimitInfo,
+      };
+    } else {
+      return {
+        imageData: null,
+        rateLimitInfo,
+        error: "No image provided in mock mode",
+      };
+    }
+  }
 
   if (!rateLimitInfo.success) {
     return {
