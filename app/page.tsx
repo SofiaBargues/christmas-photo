@@ -25,12 +25,9 @@ export default function Page() {
   const [isSnowEnabled, setIsSnowEnabled] = useState(true);
   const [showPrompt, setShowPrompt] = useState(false);
   const [prompt, setPrompt] = useState("");
-  // const [view, setView] = useState<
-  //   "landing" | "upload" | "processing" | "result"
-  // >("landing");
-  const [view, setView] = useState<
-    "landing" | "upload" | "processing" | "result"
-  >("result");
+  const [view, setView] = useState<"landing" | "processing" | "result">(
+    "landing"
+  );
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -89,7 +86,7 @@ export default function Page() {
     setIsGenerating(true);
     const url = URL.createObjectURL(file);
     setPreviewImage(url);
-    setView("landing");
+    setView("processing");
 
     try {
       const resizedFile = await resizeImage(file, 1024, 1024, 0.85);
@@ -110,17 +107,18 @@ export default function Page() {
 
           if (result.imageData) {
             setUploadedImage(result.imageData);
+            setView("result");
           } else if (result.error) {
             console.error("Error:", result.error);
             setRateLimitError(result.error);
-            setView("upload");
+            setView("landing");
           } else {
             console.error("No result returned");
-            setView("upload");
+            setView("landing");
           }
         } catch (error) {
           console.error("Error generating image:", error);
-          setView("upload");
+          setView("landing");
         } finally {
           setIsGenerating(false);
         }
@@ -128,7 +126,7 @@ export default function Page() {
       reader.readAsDataURL(resizedFile);
     } catch (error) {
       console.error("Error processing file:", error);
-      setView("upload");
+      setView("landing");
       setIsGenerating(false);
     }
   };
@@ -204,7 +202,6 @@ export default function Page() {
           {view === "landing" && (
             <LandingView
               key="landing"
-              onStart={() => setView("upload")}
               onUpload={handleUpload}
               showPrompt={showPrompt}
               prompt={prompt}
@@ -217,18 +214,9 @@ export default function Page() {
               onReset={() => {
                 setUploadedImage(null);
                 setPreviewImage(null);
+                setRateLimitError(null);
                 setView("landing");
               }}
-            />
-          )}
-          {view === "upload" && (
-            <UploadView
-              key="upload"
-              onBack={() => setView("landing")}
-              onUpload={handleUpload}
-              showPrompt={showPrompt}
-              prompt={prompt}
-              setPrompt={setPrompt}
             />
           )}
           {view === "processing" && <ProcessingView key="processing" />}
@@ -240,7 +228,8 @@ export default function Page() {
               onReset={() => {
                 setUploadedImage(null);
                 setPreviewImage(null);
-                setView("upload");
+                setRateLimitError(null);
+                setView("landing");
               }}
             />
           )}
@@ -262,7 +251,6 @@ function LandingView({
   rateLimitError,
   onReset,
 }: {
-  onStart: () => void;
   onUpload: (file: File) => void;
   showPrompt: boolean;
   prompt: string;
@@ -677,31 +665,8 @@ function ResultView({
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="w-full max-w-6xl h-full flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 pt-20 md:pt-0"
+      className="w-full max-w-6xl h-full flex flex-col items-center justify-center gap-8 md:gap-16 pt-20 md:pt-0"
     >
-      <div className="flex-1 text-center md:text-left">
-        <h2 className="font-serif text-3xl md:text-5xl mb-6">
-          Here is your card!
-        </h2>
-        <p className="text-[#F5E6D3]/70 mb-8 max-w-md">
-          Share the magic of Christmas with your loved ones.
-        </p>
-        <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
-          <button className="bg-[#F5E6D3] text-[#1a0505] px-8 py-3 rounded-full font-medium hover:scale-105 transition-transform">
-            Download
-          </button>
-          <button className="bg-[#f5e6d38c] text-[#1a0505] px-8 py-3 rounded-full font-medium hover:scale-105 transition-transform">
-            Share
-          </button>
-          <button
-            onClick={onReset}
-            className="border border-[#F5E6D3]/30 px-8 py-3 rounded-full font-medium hover:bg-[#F5E6D3]/10 transition-colors"
-          >
-            Start over
-          </button>
-        </div>
-      </div>
-
       <div className="flex-1 w-full max-w-md perspective-1000">
         <motion.div
           initial={{ rotateY: 90, opacity: 0 }}
@@ -731,6 +696,29 @@ function ResultView({
             </>
           )}
         </motion.div>
+      </div>
+
+      <div className="flex-1 text-center md:text-left">
+        <h2 className="font-serif text-3xl md:text-5xl mb-6">
+          Here is your card!
+        </h2>
+        <p className="text-[#F5E6D3]/70 mb-8 max-w-md">
+          Share the magic of Christmas with your loved ones.
+        </p>
+        <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
+          <button className="bg-[#F5E6D3] text-[#1a0505] px-8 py-3 rounded-full font-medium hover:scale-105 transition-transform">
+            Download
+          </button>
+          <button className="bg-[#F5E6D3] text-[#1a0505] px-8 py-3 rounded-full font-medium hover:scale-105 transition-transform">
+            Share
+          </button>
+          <button
+            onClick={onReset}
+            className="border border-[#F5E6D3]/30 px-8 py-3 rounded-full font-medium hover:bg-[#F5E6D3]/10 transition-colors"
+          >
+            Start over
+          </button>
+        </div>
       </div>
     </motion.div>
   );
