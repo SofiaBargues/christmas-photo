@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import BeforeAfterSlider from "@/components/ui/before-after-slider";
 
@@ -12,18 +13,33 @@ export function ResultView({
   originalImage: string | null;
   onReset: () => void;
 }) {
+  const [aspectRatio, setAspectRatio] = useState<number>(4 / 5);
+
+  useEffect(() => {
+    if (originalImage) {
+      const img = new Image();
+      img.onload = () => {
+        setAspectRatio(img.width / img.height);
+      };
+      img.src = originalImage;
+    }
+  }, [originalImage]);
+  const isPortrait = aspectRatio < 1;
+  const maxWidth = isPortrait ? "max-w-md" : "max-w-3xl";
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="w-full max-w-6xl h-full flex flex-col items-center justify-center gap-8 md:gap-16 pt-20 md:pt-0"
+      className="w-full max-w-7xl h-full flex flex-col items-center justify-center gap-6 md:gap-8 py-8 md:py-12"
     >
-      <div className="flex-1 w-full max-w-md perspective-1000">
+      <div className={`w-full ${maxWidth} min-w-[300px] perspective-1000`}>
         <motion.div
           initial={{ rotateY: 90, opacity: 0 }}
           animate={{ rotateY: 0, opacity: 1 }}
           transition={{ type: "spring", damping: 20 }}
-          className="relative aspect-[4/5] rounded-2xl overflow-hidden border-8 border-[#F5E6D3] shadow-2xl bg-[#1a4d40]"
+          className="relative rounded-2xl overflow-hidden border-8 border-[#F5E6D3] shadow-2xl bg-[#1a4d40] w-full max-h-[75vh] mx-auto"
+          style={{ aspectRatio: aspectRatio }}
         >
           {image && originalImage && (
             <>
@@ -49,11 +65,11 @@ export function ResultView({
         </motion.div>
       </div>
 
-      <div className="flex-1 text-center md:text-left">
-        <h2 className="font-serif text-3xl md:text-5xl mb-6">
+      <div className="shrink-0 text-center md:text-left px-4">
+        <h2 className="font-serif text-2xl md:text-4xl mb-4">
           Here is your card!
         </h2>
-        <p className="text-[#F5E6D3]/70 mb-8 max-w-md">
+        <p className="text-[#F5E6D3]/70 mb-6 max-w-md mx-auto md:mx-0">
           Share the magic of Christmas with your loved ones.
         </p>
         <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start">

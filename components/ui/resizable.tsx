@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { GripVerticalIcon } from "lucide-react"
-import * as ResizablePrimitive from "react-resizable-panels"
+import * as React from "react";
+import { GripVerticalIcon } from "lucide-react";
+import * as ResizablePrimitive from "react-resizable-panels";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function ResizablePanelGroup({
   className,
@@ -19,13 +19,13 @@ function ResizablePanelGroup({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function ResizablePanel({
   ...props
 }: React.ComponentProps<typeof ResizablePrimitive.Panel>) {
-  return <ResizablePrimitive.Panel data-slot="resizable-panel" {...props} />
+  return <ResizablePrimitive.Panel data-slot="resizable-panel" {...props} />;
 }
 
 function ResizableHandle({
@@ -33,7 +33,7 @@ function ResizableHandle({
   className,
   ...props
 }: React.ComponentProps<typeof ResizablePrimitive.PanelResizeHandle> & {
-  withHandle?: boolean
+  withHandle?: boolean;
 }) {
   return (
     <ResizablePrimitive.PanelResizeHandle
@@ -45,12 +45,18 @@ function ResizableHandle({
       {...props}
     >
       {withHandle && (
-        <div className="bg-border z-10 flex h-4 w-3 items-center justify-center rounded-xs border">
-          <GripVerticalIcon className="size-2.5" />
+        <div
+          className="z-10 flex h-16 w-3 items-center justify-center rounded-full border-2 border-white shadow-xl"
+          style={{
+            background:
+              "repeating-linear-gradient(45deg, #dc2626 0px, #dc2626 8px, #ffffff 8px, #ffffff 16px)",
+          }}
+        >
+          <GripVerticalIcon className="size-2.5 text-white drop-shadow-md" />
         </div>
       )}
     </ResizablePrimitive.PanelResizeHandle>
-  )
+  );
 }
 
-export { ResizablePanelGroup, ResizablePanel, ResizableHandle }
+export { ResizablePanelGroup, ResizablePanel, ResizableHandle };
