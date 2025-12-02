@@ -3,13 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { SnowEffect } from "@/components/snow-effect";
-import {
-  Volume2,
-  VolumeX,
-  Github,
-  Snowflake,
-  PenLine,
-} from "lucide-react";
+import { Volume2, VolumeX, Github, Snowflake, PenLine } from "lucide-react";
 import { generateImage } from "@/server/image";
 import { getRateLimitStatus, RateLimitInfo } from "@/server/ratelimit";
 import { resizeImage } from "@/lib/utils";
