@@ -188,7 +188,7 @@ export default function Page() {
         )}
       </div>
 
-      <div className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center">
+      <div className="relative z-10 w-full flex flex-col items-center justify-center">
         <AnimatePresence mode="wait">
           {view === "landing" && (
             <div className="p-6 pt-24 pb-24 md:p-12 w-full flex items-center justify-center">
