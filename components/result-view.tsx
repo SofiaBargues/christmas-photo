@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Download, Share2, RotateCcw } from "lucide-react";
 import BeforeAfterSlider from "@/components/ui/before-after-slider";
 
 export function ResultView({
@@ -29,7 +30,7 @@ export function ResultView({
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="w-full flex flex-col items-center justify-center gap-4 md:gap-6 px-4 py-6 box-border"
+      className="w-full flex flex-col items-center justify-center gap-2 md:gap-4 px-4 py-4 box-border"
     >
       {/* Container 1: fixed viewport box */}
       <div className="w-[80vw] h-[60vh] max-w-5xl max-h-[60vh] flex items-center justify-center perspective-1000">
@@ -56,24 +57,27 @@ export function ResultView({
         </motion.div>
       </div>
 
-      <div className="shrink-0 text-center md:text-left px-4 pb-2">
-        <h2 className="font-serif text-2xl md:text-4xl mb-4">
+      <div className="shrink-0 text-center px-4 flex flex-col items-center">
+        <h2 className="font-serif text-2xl md:text-3xl mb-2 text-[#F5E6D3] drop-shadow-lg">
           Here is your card!
         </h2>
-        <p className="text-[#F5E6D3]/70 mb-6 max-w-md mx-auto md:mx-0">
+        <p className="text-[#F5E6D3]/80 mb-4 max-w-md text-sm font-light tracking-wide">
           Share the magic of Christmas with your loved ones.
         </p>
-        <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
-          <button className="bg-[#F5E6D3] text-[#1a0505] px-8 py-3 rounded-full font-medium hover:scale-105 transition-transform">
+        <div className="flex flex-wrap gap-3 justify-center items-center">
+          <button className="bg-[#F5E6D3] text-[#2C0A0A] px-6 py-2 rounded-full font-serif text-base hover:bg-white hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(245,230,211,0.3)] flex items-center gap-2">
+            <Download className="w-4 h-4" />
             Download
           </button>
-          <button className="bg-[#F5E6D3] text-[#1a0505] px-8 py-3 rounded-full font-medium hover:scale-105 transition-transform">
+          {/* <button className="bg-[#3C1A1A] text-[#F5E6D3] border border-[#F5E6D3]/30 px-6 py-2 rounded-full font-serif text-base hover:bg-[#4C2A2A] hover:border-[#F5E6D3]/60 hover:scale-105 transition-all duration-300 flex items-center gap-2">
+            <Share2 className="w-4 h-4" />
             Share
-          </button>
+          </button> */}
           <button
             onClick={onReset}
-            className="border border-[#F5E6D3]/30 px-8 py-3 rounded-full font-medium hover:bg-[#F5E6D3]/10 transition-colors"
+            className="text-[#F5E6D3]/60 px-4 py-2 rounded-full font-serif text-base hover:text-[#F5E6D3] hover:bg-[#F5E6D3]/5 transition-all duration-300 flex items-center gap-2"
           >
+            <RotateCcw className="w-4 h-4" />
             Start over
           </button>
         </div>
