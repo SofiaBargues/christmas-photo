@@ -188,27 +188,29 @@ export default function Page() {
         )}
       </div>
 
-      <div className="relative z-10 w-full min-h-screen flex flex-col md:flex-row items-center justify-center p-6 pt-24 pb-24 md:p-12">
+      <div className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center">
         <AnimatePresence mode="wait">
           {view === "landing" && (
-            <LandingView
-              key="landing"
-              onUpload={handleUpload}
-              showPrompt={showPrompt}
-              prompt={prompt}
-              setPrompt={setPrompt}
-              isGenerating={isGenerating}
-              previewImage={previewImage}
-              resultImage={uploadedImage}
-              rateLimitInfo={rateLimitInfo}
-              rateLimitError={rateLimitError}
-              onReset={() => {
-                setUploadedImage(null);
-                setPreviewImage(null);
-                setRateLimitError(null);
-                setView("landing");
-              }}
-            />
+            <div className="p-6 pt-24 pb-24 md:p-12 w-full flex items-center justify-center">
+              <LandingView
+                key="landing"
+                onUpload={handleUpload}
+                showPrompt={showPrompt}
+                prompt={prompt}
+                setPrompt={setPrompt}
+                isGenerating={isGenerating}
+                previewImage={previewImage}
+                resultImage={uploadedImage}
+                rateLimitInfo={rateLimitInfo}
+                rateLimitError={rateLimitError}
+                onReset={() => {
+                  setUploadedImage(null);
+                  setPreviewImage(null);
+                  setRateLimitError(null);
+                  setView("landing");
+                }}
+              />
+            </div>
           )}
           {view === "processing" && <ProcessingView key="processing" />}
           {view === "result" && (

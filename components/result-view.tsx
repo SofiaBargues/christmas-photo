@@ -13,7 +13,7 @@ export function ResultView({
   originalImage: string | null;
   onReset: () => void;
 }) {
-  const [aspectRatio, setAspectRatio] = useState<number>(4 / 5);
+  const [aspectRatio, setAspectRatio] = useState<number | null>(null);
 
   useEffect(() => {
     if (originalImage) {
@@ -24,48 +24,39 @@ export function ResultView({
       img.src = originalImage;
     }
   }, [originalImage]);
-  const isPortrait = aspectRatio < 1;
-  const maxWidth = isPortrait ? "max-w-md" : "max-w-3xl";
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="w-full max-w-7xl h-full flex flex-col items-center justify-center gap-6 md:gap-8 py-8 md:py-12"
+      className="w-full flex flex-col items-center justify-center gap-4 md:gap-6 px-4 py-6 box-border"
     >
-      <div className={`w-full ${maxWidth} min-w-[300px] perspective-1000`}>
+      {/* Container 1: fixed viewport box */}
+      <div className="w-[80vw] h-[60vh] max-w-5xl max-h-[60vh] flex items-center justify-center perspective-1000">
+        {/* Container 2: aspect-ratio-aware box that fits inside container 1 */}
         <motion.div
           initial={{ rotateY: 90, opacity: 0 }}
           animate={{ rotateY: 0, opacity: 1 }}
           transition={{ type: "spring", damping: 20 }}
-          className="relative rounded-2xl overflow-hidden border-8 border-[#F5E6D3] shadow-2xl bg-[#1a4d40] w-full max-h-[75vh] mx-auto"
-          style={{ aspectRatio: aspectRatio }}
+          className="relative max-w-full max-h-full rounded-2xl overflow-hidden border-8 border-[#F5E6D3] shadow-2xl bg-[#1a4d40]"
+          style={{
+            aspectRatio: aspectRatio ?? 4 / 5,
+            width: aspectRatio && aspectRatio >= 1 ? "100%" : "auto",
+            height: aspectRatio && aspectRatio < 1 ? "100%" : "auto",
+          }}
         >
           {image && originalImage && (
-            <>
-              <div className="absolute inset-0 bg-[url('/winter-snowfall.png')] opacity-20 mix-blend-overlay z-10 pointer-events-none" />
-
-              <BeforeAfterSlider
-                beforeImage={originalImage}
-                afterImage={image}
-                beforeAlt="Original Photo"
-                afterAlt="Christmas Result"
-              />
-
-              <div className="absolute inset-0 border-[20px] border-[#D4AF37]/20 z-20 pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-[#1a0505] to-transparent z-20 pointer-events-none" />
-
-              <div className="absolute bottom-8 left-0 w-full text-center z-30 pointer-events-none">
-                <div className="font-serif text-3xl text-[#F5E6D3] drop-shadow-md">
-                  Merry Christmas
-                </div>
-              </div>
-            </>
+            <BeforeAfterSlider
+              beforeImage={originalImage}
+              afterImage={image}
+              beforeAlt="Original Photo"
+              afterAlt="Christmas Result"
+            />
           )}
         </motion.div>
       </div>
 
-      <div className="shrink-0 text-center md:text-left px-4">
+      <div className="shrink-0 text-center md:text-left px-4 pb-2">
         <h2 className="font-serif text-2xl md:text-4xl mb-4">
           Here is your card!
         </h2>
