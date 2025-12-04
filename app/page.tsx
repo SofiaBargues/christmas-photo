@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { SnowEffect } from "@/components/snow-effect";
-import { Volume2, VolumeX, Github, Snowflake, PenLine } from "lucide-react";
+import { Header } from "@/components/header";
 import { generateImage } from "@/server/image";
 import { getRateLimitStatus, RateLimitInfo } from "@/server/ratelimit";
 import { resizeImage } from "@/lib/utils";
@@ -123,75 +123,23 @@ export default function Page() {
   };
 
   return (
-    <main className="relative min-h-screen pb-40 sm:pb-0  w-full overflow-x-hidden bg-[#1a0505] text-[#F5E6D3] selection:bg-[#D4AF37] selection:text-[#1a0505]">
+    <main className="min-h-screen w-full flex flex-col overflow-x-hidden bg-[#1a0505] text-[#F5E6D3] selection:bg-[#D4AF37] selection:text-[#1a0505]">
       <SnowEffect isEnabled={isSnowEnabled} />
 
-      <div className="absolute top-0 left-0 w-full p-6 md:p-12 z-20 flex justify-between items-start  ">
-        <div className="flex flex-col">
-          <h1 className="text-xs md:text-sm font-bold tracking-widest uppercase text-[#F5E6D3]/60">
-            {/* Riven */}
-          </h1>
-          <p className="text-[10px] md:text-xs tracking-wider uppercase text-[#F5E6D3]/40 mt-1">
-            {/* Presents */}
-          </p>
-        </div>
-        <a
-          href="https://github.com/SofiaBargues/christmas-photo"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 bg-[#F5E6D3]/10 hover:bg-[#F5E6D3]/20 px-3 py-1.5 rounded-full transition-colors text-xs md:text-sm font-medium"
-        >
-          <Github className="w-4 h-4" />
-          <span>Star on GitHub</span>
-        </a>
-      </div>
+      <Header
+        isMuted={isMuted}
+        isSnowEnabled={isSnowEnabled}
+        showPrompt={showPrompt}
+        showPromptButton={!uploadedImage}
+        onToggleSound={toggleSound}
+        onToggleSnow={toggleSnow}
+        onTogglePrompt={togglePrompt}
+      />
 
-      <div className="absolute bottom-6 left-6 md:bottom-12 md:left-12 z-20 flex gap-3">
-        <button
-          onClick={toggleSound}
-          className="p-3 rounded-full bg-[#F5E6D3]/5 hover:bg-[#F5E6D3]/10 transition-colors backdrop-blur-sm"
-          aria-label={isMuted ? "Unmute" : "Mute"}
-        >
-          {isMuted ? (
-            <VolumeX className="w-5 h-5" />
-          ) : (
-            <Volume2 className="w-5 h-5" />
-          )}
-        </button>
-
-        <button
-          onClick={toggleSnow}
-          className={`p-3 rounded-full transition-colors backdrop-blur-sm ${
-            isSnowEnabled
-              ? "bg-[#F5E6D3]/10 hover:bg-[#F5E6D3]/20"
-              : "bg-[#F5E6D3]/5 hover:bg-[#F5E6D3]/10 opacity-50"
-          }`}
-          aria-label={isSnowEnabled ? "Disable Snow" : "Enable Snow"}
-        >
-          <Snowflake className="w-5 h-5" />
-        </button>
-
-        {!uploadedImage && (
-          <button
-            onClick={togglePrompt}
-            className={`p-3 rounded-full transition-colors backdrop-blur-sm ${
-              showPrompt
-                ? "bg-[#F5E6D3]/10 hover:bg-[#F5E6D3]/20"
-                : "bg-[#F5E6D3]/5 hover:bg-[#F5E6D3]/10 opacity-50"
-            }`}
-            aria-label={
-              showPrompt ? "Hide Prompt Writer" : "Show Prompt Writer"
-            }
-          >
-            <PenLine className="w-5 h-5" />
-          </button>
-        )}
-      </div>
-
-      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+      <div className="flex-1 w-full flex flex-col items-center justify-center">
         <AnimatePresence mode="wait">
           {view === "landing" && (
-            <div className="p-6 pt-24 pb-24 md:p-12 w-full flex items-center justify-center">
+            <div className="p-6 w-full flex items-center justify-center">
               <LandingView
                 key="landing"
                 onUpload={handleUpload}

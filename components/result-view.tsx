@@ -38,7 +38,7 @@ export function ResultView({
           initial={{ rotateY: 90, opacity: 0 }}
           animate={{ rotateY: 0, opacity: 1 }}
           transition={{ type: "spring", damping: 20 }}
-          className="relative max-w-full max-h-full rounded-2xl overflow-hidden border-8 border-[#F5E6D3] shadow-2xl bg-[#1a4d40]"
+          className="relative max-w-full max-h-full rounded-3xl overflow-hidden border-8 border-[#F5E6D3] shadow-2xl "
           style={{
             aspectRatio: aspectRatio ?? 4 / 5,
             width: aspectRatio && aspectRatio >= 1 ? "100%" : "auto",
