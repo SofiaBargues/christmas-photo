@@ -87,7 +87,7 @@ export async function getPhotoResult(id: string): Promise<PhotoResult | null> {
   if (!data) {
     return null;
   }
-  
+
   // Handle both string and object cases from Redis
   if (typeof data === "string") {
     return JSON.parse(data) as PhotoResult;

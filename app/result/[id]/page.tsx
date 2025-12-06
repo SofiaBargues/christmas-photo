@@ -7,10 +7,12 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { id } = await params;
   const result = await getPhotoResult(id);
-  
+
   if (!result) {
     return {
       title: "Photo Not Found",
@@ -22,7 +24,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description: "Check out my festive Christmas photo transformation!",
     openGraph: {
       title: "My Christmas Photo Transformation",
-      description: "Transform your photos with festive Christmas magic using AI!",
+      description:
+        "Transform your photos with festive Christmas magic using AI!",
       images: [
         {
           url: result.generatedUrl,
@@ -36,7 +39,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     twitter: {
       card: "summary_large_image",
       title: "My Christmas Photo Transformation",
-      description: "Transform your photos with festive Christmas magic using AI!",
+      description:
+        "Transform your photos with festive Christmas magic using AI!",
       images: [result.generatedUrl],
     },
   };

@@ -118,7 +118,9 @@ Eyes preservation**: The eyes must remain EXACTLY identical to the original phot
   }
 
   // Save both original and generated images to storage
-  const originalDataUrl = `data:${image?.mimeType || "image/jpeg"};base64,${image?.data || ""}`;
+  const originalDataUrl = `data:${image?.mimeType || "image/jpeg"};base64,${
+    image?.data || ""
+  }`;
   const photoResult = await savePhotoResult(originalDataUrl, imageData);
 
   return {
