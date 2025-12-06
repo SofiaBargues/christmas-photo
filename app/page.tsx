@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { SnowEffect } from "@/components/snow-effect";
 import { Header } from "@/components/header";
@@ -12,6 +13,7 @@ import { ProcessingView } from "@/components/processing-view";
 import { ResultView } from "@/components/result-view";
 
 export default function Page() {
+  const router = useRouter();
   const [isMuted, setIsMuted] = useState(true);
   const [isSnowEnabled, setIsSnowEnabled] = useState(true);
   const [showPrompt, setShowPrompt] = useState(false);
@@ -96,9 +98,9 @@ export default function Page() {
           // Update rate limit info from response
           setRateLimitInfo(result.rateLimitInfo);
 
-          if (result.imageData) {
-            setUploadedImage(result.imageData);
-            setView("result");
+          if (result.photoResult) {
+            // Navigate to shareable result page
+            router.push(`/result/${result.photoResult.id}`);
           } else if (result.error) {
             console.error("Error:", result.error);
             setRateLimitError(result.error);

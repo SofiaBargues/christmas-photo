@@ -5,6 +5,7 @@ const MOCK = false;
 import { generateText } from "ai";
 import { GoogleGenerativeAIProviderOptions } from "@ai-sdk/google";
 import { checkRateLimit, RateLimitInfo } from "./ratelimit";
+import { savePhotoResult, PhotoResult } from "./storage";
 
 interface ImageInput {
   data: string; // base64 data
@@ -15,6 +16,7 @@ export interface GenerateImageResult {
   imageData: string | null;
   rateLimitInfo: RateLimitInfo;
   error?: string;
+  photoResult?: PhotoResult; // Result with shareable URLs
 }
 
 const googleProviderOptions: GoogleGenerativeAIProviderOptions = {
@@ -35,9 +37,13 @@ export async function generateImage(
     await new Promise((resolve) => setTimeout(resolve, 1000));
     if (image && image.data) {
       // Return the original image data
+      const imageData = `data:${image.mimeType};base64,${image.data}`;
+      const originalDataUrl = imageData;
+      const photoResult = await savePhotoResult(originalDataUrl, imageData);
       return {
-        imageData: `data:${image.mimeType};base64,${image.data}`,
+        imageData,
         rateLimitInfo,
+        photoResult,
       };
     } else {
       return {
@@ -111,8 +117,13 @@ Eyes preservation**: The eyes must remain EXACTLY identical to the original phot
     };
   }
 
+  // Save both original and generated images to storage
+  const originalDataUrl = `data:${image?.mimeType || "image/jpeg"};base64,${image?.data || ""}`;
+  const photoResult = await savePhotoResult(originalDataUrl, imageData);
+
   return {
     imageData,
     rateLimitInfo,
+    photoResult,
   };
 }
