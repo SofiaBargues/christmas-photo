@@ -18,9 +18,7 @@ export default function Page() {
   const [isSnowEnabled, setIsSnowEnabled] = useState(true);
   const [showPrompt, setShowPrompt] = useState(false);
   const [prompt, setPrompt] = useState("");
-  const [view, setView] = useState<"landing" | "processing" | "result">(
-    "landing"
-  );
+  const [view, setView] = useState<"landing" | "processing">("landing");
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -163,19 +161,6 @@ export default function Page() {
             </div>
           )}
           {view === "processing" && <ProcessingView key="processing" />}
-          {view === "result" && (
-            <ResultView
-              key="result"
-              image={uploadedImage}
-              originalImage={previewImage}
-              onReset={() => {
-                setUploadedImage(null);
-                setPreviewImage(null);
-                setRateLimitError(null);
-                setView("landing");
-              }}
-            />
-          )}
         </AnimatePresence>
       </div>
     </main>

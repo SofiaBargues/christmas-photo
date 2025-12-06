@@ -130,6 +130,13 @@ export function ShareableResult({ result }: ShareableResultProps) {
             </p>
             <div className="flex flex-wrap gap-3 justify-center items-center">
               <button
+                onClick={handleCreateOwn}
+                className="text-[#F5E6D3]/60 px-4 py-2 rounded-full font-serif text-base hover:text-[#F5E6D3] hover:bg-[#F5E6D3]/5 transition-all duration-300 flex items-center gap-2"
+              >
+                <RotateCcw className="w-4 h-4" />
+                Go back
+              </button>
+              <button
                 onClick={handleDownload}
                 className="bg-[#F5E6D3] text-[#2C0A0A] px-6 py-2 rounded-full font-serif text-base hover:bg-white hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(245,230,211,0.3)] flex items-center gap-2"
               >
@@ -151,13 +158,6 @@ export function ShareableResult({ result }: ShareableResultProps) {
                     Share
                   </>
                 )}
-              </button>
-              <button
-                onClick={handleCreateOwn}
-                className="text-[#F5E6D3]/60 px-4 py-2 rounded-full font-serif text-base hover:text-[#F5E6D3] hover:bg-[#F5E6D3]/5 transition-all duration-300 flex items-center gap-2"
-              >
-                <RotateCcw className="w-4 h-4" />
-                Create your own
               </button>
             </div>
           </div>

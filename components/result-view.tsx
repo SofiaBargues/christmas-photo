@@ -23,7 +23,9 @@ export function ResultView({
       // Convert base64/URL to blob for sharing
       const response = await fetch(image);
       const blob = await response.blob();
-      const file = new File([blob], "christmas-card.png", { type: "image/png" });
+      const file = new File([blob], "christmas-card.png", {
+        type: "image/png",
+      });
 
       if (navigator.share && navigator.canShare({ files: [file] })) {
         await navigator.share({
