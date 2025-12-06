@@ -1,5 +1,5 @@
 "use server";
-const MOCK = true;
+const MOCK = false;
 
 import { generateText } from "ai";
 import { GoogleGenerativeAIProviderOptions } from "@ai-sdk/google";
