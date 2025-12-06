@@ -16,6 +16,40 @@ export function ResultView({
 }) {
   const [aspectRatio, setAspectRatio] = useState<number | null>(null);
 
+  const handleShare = async () => {
+    if (!image) return;
+
+    try {
+      // Convert base64/URL to blob for sharing
+      const response = await fetch(image);
+      const blob = await response.blob();
+      const file = new File([blob], "christmas-card.png", { type: "image/png" });
+
+      if (navigator.share && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: "My Christmas Card",
+          text: "Check out my Christmas card! 🎄✨",
+          files: [file],
+        });
+      } else if (navigator.share) {
+        // Fallback: share without file if file sharing is not supported
+        await navigator.share({
+          title: "My Christmas Card",
+          text: "Check out my Christmas card! 🎄✨",
+        });
+      } else {
+        // Fallback for browsers that don't support Web Share API
+        await navigator.clipboard.writeText(window.location.href);
+        alert("Link copied to clipboard!");
+      }
+    } catch (error) {
+      // User cancelled or share failed
+      if ((error as Error).name !== "AbortError") {
+        console.error("Error sharing:", error);
+      }
+    }
+  };
+
   useEffect(() => {
     if (originalImage) {
       const img = new Image();
@@ -69,10 +103,13 @@ export function ResultView({
             <Download className="w-4 h-4" />
             Download
           </button>
-          {/* <button className="bg-[#3C1A1A] text-[#F5E6D3] border border-[#F5E6D3]/30 px-6 py-2 rounded-full font-serif text-base hover:bg-[#4C2A2A] hover:border-[#F5E6D3]/60 hover:scale-105 transition-all duration-300 flex items-center gap-2">
+          <button
+            onClick={handleShare}
+            className="bg-[#3C1A1A] text-[#F5E6D3] border border-[#F5E6D3]/30 px-6 py-2 rounded-full font-serif text-base hover:bg-[#4C2A2A] hover:border-[#F5E6D3]/60 hover:scale-105 transition-all duration-300 flex items-center gap-2"
+          >
             <Share2 className="w-4 h-4" />
             Share
-          </button> */}
+          </button>
           <button
             onClick={onReset}
             className="text-[#F5E6D3]/60 px-4 py-2 rounded-full font-serif text-base hover:text-[#F5E6D3] hover:bg-[#F5E6D3]/5 transition-all duration-300 flex items-center gap-2"
