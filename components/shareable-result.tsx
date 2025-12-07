@@ -51,8 +51,8 @@ export function ShareableResult({ result }: ShareableResultProps) {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "My Christmas Photo",
-          text: "Check out my festive Christmas photo transformation!",
+          title: "Our Christmas Photo",
+          text: "Check out our Christmas photo transformation!",
           url: shareUrl,
         });
       } catch {
@@ -131,31 +131,31 @@ export function ShareableResult({ result }: ShareableResultProps) {
             <div className="flex flex-wrap gap-3 justify-center items-center">
               <button
                 onClick={handleCreateOwn}
-                className="text-[#F5E6D3]/60 px-4 py-2 rounded-full font-serif text-base hover:text-[#F5E6D3] hover:bg-[#F5E6D3]/5 transition-all duration-300 flex items-center gap-2"
+                className="text-[#F5E6D3]/60 px-2 py-2 rounded-full font-serif text-base hover:text-[#F5E6D3] hover:bg-[#F5E6D3]/5 transition-all duration-300 flex items-center gap-2 sm:px-6 sm:text-base  text-sm"
               >
                 <RotateCcw className="w-4 h-4" />
-                Start Over
+                <span className="hidden sm:inline">Start Over</span>
               </button>
               <button
                 onClick={handleDownload}
-                className="bg-[#F5E6D3] text-[#2C0A0A] px-6 py-2 rounded-full font-serif text-base hover:bg-white hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(245,230,211,0.3)] flex items-center gap-2"
+                className="bg-[#F5E6D3]   text-[#2C0A0A] px-2 py-2 rounded-full font-serif text-base hover:bg white hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(245,230,211,0.3)] flex items-center gap-2 sm:px-6 sm:text-base  text-sm"
               >
                 <Download className="w-4 h-4" />
-                Download
+                <span className="hidden sm:inline">Download</span>
               </button>
               <button
                 onClick={handleShare}
-                className="bg-[#3C1A1A] text-[#F5E6D3] border border-[#F5E6D3]/30 px-6 py-2 rounded-full font-serif text-base hover:bg-[#4C2A2A] hover:border-[#F5E6D3]/60 hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                className="bg-[#3C1A1A] text-[#F5E6D3] border border-[#F5E6D3]/30 px-2 py-2 rounded-full font-serif text-base hover:bg-[#4C2A2A] hover:border-[#F5E6D3]/60 hover:scale-105 transition-all duration-300 flex items-center gap-2 sm:px-6 sm:text-base text-sm"
               >
                 {copied ? (
                   <>
                     <Check className="w-4 h-4" />
-                    Copied!
+                    <span className="hidden sm:inline">Copied!</span>
                   </>
                 ) : (
                   <>
                     <Share2 className="w-4 h-4" />
-                    Share
+                    <span className="hidden sm:inline">Share</span>
                   </>
                 )}
               </button>
