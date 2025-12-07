@@ -1,94 +1,71 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
+import { useState } from "react";
 
 interface Snowflake {
-  id: number
-  x: number
-  y: number
-  radius: number
-  speed: number
-  wind: number
-  opacity: number
+  id: number;
+  x: number;
+  size: number;
+  duration: number;
+  delay: number;
+  opacity: number;
+  drift: number;
 }
 
 interface SnowEffectProps {
-  isEnabled?: boolean
+  isEnabled?: boolean;
+}
+
+function generateSnowflakes(): Snowflake[] {
+  // Reduce count on mobile for better performance
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const count = isMobile ? 50 : 80;
+
+  return Array.from({ length: count }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    size: Math.random() * 3 + 1,
+    duration: Math.random() * 10 + 8, // 8-18 seconds to fall
+    delay: Math.random() * -15, // Stagger start times
+    opacity: Math.random() * 0.6 + 0.2,
+    drift: Math.random() * 30 - 15, // Horizontal drift in px
+  }));
 }
 
 export function SnowEffect({ isEnabled = true }: SnowEffectProps) {
-  const [snowflakes, setSnowflakes] = useState<Snowflake[]>([])
+  // Generate snowflakes only once using lazy initialization
+  const [snowflakes] = useState<Snowflake[]>(generateSnowflakes);
 
-  useEffect(() => {
-    if (!isEnabled) {
-      setSnowflakes([])
-      return
-    }
-
-    // Create initial snowflakes with more realism
-    const count = 150
-    const newSnowflakes: Snowflake[] = []
-
-    for (let i = 0; i < count; i++) {
-      newSnowflakes.push({
-        id: i,
-        x: Math.random() * 100, // vw
-        y: Math.random() * 100, // vh
-        radius: Math.random() * 3 + 1, // 1px to 4px
-        speed: Math.random() * 0.3 + 0.1,
-        wind: Math.random() * 0.5 - 0.25, // Slight horizontal drift
-        opacity: Math.random() * 0.7 + 0.1, // More variation in opacity
-      })
-    }
-
-    setSnowflakes(newSnowflakes)
-
-    // Animation loop
-    const interval = setInterval(() => {
-      setSnowflakes((prev) =>
-        prev.map((flake) => {
-          let newY = flake.y + flake.speed
-          let newX = flake.x + flake.wind // Apply wind
-
-          // Reset to top if it goes off screen
-          if (newY > 100) {
-            newY = -5
-            newX = Math.random() * 100
-          }
-
-          if (newX > 100) newX = 0
-          if (newX < 0) newX = 100
-
-          return {
-            ...flake,
-            y: newY,
-            x: newX,
-          }
-        }),
-      )
-    }, 50)
-
-    return () => clearInterval(interval)
-  }, [isEnabled]) // Added dependency
-
-  if (!isEnabled) return null // Don't render if disabled
+  if (!isEnabled) return null;
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {snowflakes.map((flake) => (
-        <div
-          key={flake.id}
-          className="absolute rounded-full bg-white blur-[1px]" // Added blur for softness
-          style={{
-            left: `${flake.x}vw`,
-            top: `${flake.y}vh`,
-            width: `${flake.radius}px`,
-            height: `${flake.radius}px`,
-            opacity: flake.opacity,
-            // Removed transition for smoother frame-by-frame updates
-          }}
-        />
-      ))}
-    </div>
-  )
+    <>
+      <style jsx global>{`
+        @keyframes snowfall {
+          0% {
+            transform: translateY(-10vh) translateX(0);
+          }
+          100% {
+            transform: translateY(110vh) translateX(var(--drift));
+          }
+        }
+      `}</style>
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        {snowflakes.map((flake) => (
+          <div
+            key={flake.id}
+            className="absolute rounded-full bg-white will-change-transform"
+            style={{
+              left: `${flake.x}%`,
+              width: `${flake.size}px`,
+              height: `${flake.size}px`,
+              opacity: flake.opacity,
+              ["--drift" as string]: `${flake.drift}px`,
+              animation: `snowfall ${flake.duration}s linear ${flake.delay}s infinite`,
+            }}
+          />
+        ))}
+      </div>
+    </>
+  );
 }
