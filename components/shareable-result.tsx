@@ -99,7 +99,7 @@ export function ShareableResult({ result }: ShareableResultProps) {
           className="w-full flex flex-col items-center justify-center gap-2 md:gap-4 px-4 py-4 box-border"
         >
           {/* Container 1: fixed viewport box */}
-          <div className="w-[80vw] h-[60vh] max-w-5xl max-h-[60vh] flex items-center justify-center perspective-1000">
+          <div className="w-[80vw] sm:h-[60vh] h-[50vh] max-w-5xl max-h-[60vh] flex items-center justify-center perspective-1000">
             {/* Container 2: aspect-ratio-aware box that fits inside container 1 */}
             <motion.div
               initial={{ rotateY: 90, opacity: 0 }}
@@ -134,7 +134,7 @@ export function ShareableResult({ result }: ShareableResultProps) {
                 className="text-[#F5E6D3]/60 px-4 py-2 rounded-full font-serif text-base hover:text-[#F5E6D3] hover:bg-[#F5E6D3]/5 transition-all duration-300 flex items-center gap-2"
               >
                 <RotateCcw className="w-4 h-4" />
-                Go back
+                Start Over
               </button>
               <button
                 onClick={handleDownload}

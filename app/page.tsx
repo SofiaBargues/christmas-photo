@@ -10,7 +10,6 @@ import { getRateLimitStatus, RateLimitInfo } from "@/server/ratelimit";
 import { resizeImage } from "@/lib/utils";
 import { LandingView } from "@/components/landing-view";
 import { ProcessingView } from "@/components/processing-view";
-import { ResultView } from "@/components/result-view";
 
 export default function Page() {
   const router = useRouter();

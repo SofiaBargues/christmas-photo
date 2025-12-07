@@ -21,7 +21,7 @@ export interface GenerateImageResult {
 
 const googleProviderOptions: GoogleGenerativeAIProviderOptions = {
   imageConfig: {
-    imageSize: "2K",
+    imageSize: "1K",
   },
 };
 
