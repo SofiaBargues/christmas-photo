@@ -56,6 +56,7 @@ export function SnowEffect({ isEnabled = true }: SnowEffectProps) {
             key={flake.id}
             className="absolute rounded-full bg-white will-change-transform"
             style={{
+              top: "-5px",
               left: `${flake.x}%`,
               width: `${flake.size}px`,
               height: `${flake.size}px`,
