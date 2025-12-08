@@ -26,7 +26,7 @@ function generateSnowflakes(): Snowflake[] {
     x: Math.random() * 100,
     size: Math.random() * 3 + 1,
     duration: Math.random() * 10 + 8, // 8-18 seconds to fall
-    delay: Math.random() * -15, // Stagger start times
+    delay: Math.random() * 5, // Stagger start times
     opacity: Math.random() * 0.6 + 0.2,
     drift: Math.random() * 30 - 15, // Horizontal drift in px
   }));

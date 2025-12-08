@@ -26,14 +26,6 @@ export async function generateMetadata({
       title: "My Christmas Photo Transformation",
       description:
         "Transform your photos with festive Christmas magic using AI!",
-      images: [
-        {
-          url: result.generatedUrl,
-          width: 1200,
-          height: 630,
-          alt: "Christmas Photo Transformation",
-        },
-      ],
       type: "website",
     },
     twitter: {
@@ -41,7 +33,6 @@ export async function generateMetadata({
       title: "My Christmas Photo Transformation",
       description:
         "Transform your photos with festive Christmas magic using AI!",
-      images: [result.generatedUrl],
     },
   };
 }
