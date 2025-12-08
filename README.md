@@ -15,7 +15,7 @@ A festive web application that transforms your normal photos into magical Christ
 
 ## 🛠️ Technologies Used
 
-- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
 - **Language**: TypeScript
 - **Styles**: [Tailwind CSS](https://tailwindcss.com/)
 - **UI Components**: [Shadcn UI](https://ui.shadcn.com/) / [Radix UI](https://www.radix-ui.com/)
