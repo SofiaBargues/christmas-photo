@@ -1,6 +1,6 @@
 # 🎄 Christmas Photo Editor
 
-A festive web application that transforms your normal photos into magical Christmas memories using Artificial Intelligence.
+Transforms your normal photos into magical Christmas memories using AI.
 
 ![alt text](public/image.png)
 
