@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎄 Christmas Photo Editor
 
-## Getting Started
+A festive web application that transforms your normal photos into magical Christmas memories using Artificial Intelligence.
 
-First, run the development server:
+![alt text](public/image.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **AI Transformation**: Uses Google Gemini 3 Pro to add Christmas decorations and festive attire to people in your photos, keeping their original faces and expressions.
+- **Before/After Comparison**: Visualize the transformation with an interactive slider.
+- **Festive Atmosphere**: Falling snow effect and optional background music ("Jingle Bells").
+- **Shareable Results**: Generate unique links to share your creations with friends and family.
+- **Rate Limiting**: Usage limit system to prevent abuse (configured with Upstash Redis).
+- **Responsive Design**: Works perfectly on mobile and desktop.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Technologies Used
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Language**: TypeScript
+- **Styles**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: [Shadcn UI](https://ui.shadcn.com/) / [Radix UI](https://www.radix-ui.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **AI**: [Vercel AI SDK](https://sdk.vercel.ai/) with Google Gemini
+- **Storage**: [Vercel Blob](https://vercel.com/docs/storage/vercel-blob)
+- **Database / Rate Limiting**: [Upstash Redis](https://upstash.com/)
 
-## Learn More
+## 🚀 Getting Started
 
-To learn more about Next.js, take a look at the following resources:
+Follow these steps to run the project in your local environment.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Prerequisites
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Node.js 18+ installed
+- pnpm installed (`npm install -g pnpm`)
 
-## Deploy on Vercel
+### Installation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Clone the repository:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   git clone <repository-url>
+   cd christmas-photo
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   pnpm install
+   ```
+
+3. Configure environment variables. Create a `.env.local` file in the root of the project with the following variables:
+
+   ```env
+   # Google AI (Gemini)
+   GOOGLE_GENERATIVE_AI_API_KEY=your_google_api_key
+
+   # Vercel Blob (Image Storage)
+   BLOB_READ_WRITE_TOKEN=your_vercel_blob_token
+
+   # Upstash Redis (Rate Limiting and Metadata)
+   KV_REST_API_URL=your_upstash_redis_url
+   KV_REST_API_TOKEN=your_upstash_redis_token
+   ```
+
+4. Run the development server:
+
+   ```bash
+   pnpm dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 📝 Project Structure
+
+- `app/`: Next.js routes and pages (App Router).
+- `components/`: Reusable React components (UI, views, effects).
+- `server/`: Server-side logic (Server Actions, AI configuration, storage).
+- `lib/`: Utilities and helper functions.
+- `public/`: Static files.
