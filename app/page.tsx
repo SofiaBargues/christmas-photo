@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { SnowEffect } from "@/components/snow-effect";
@@ -10,10 +10,11 @@ import { getRateLimitStatus, RateLimitInfo } from "@/server/ratelimit";
 import { resizeImage } from "@/lib/utils";
 import { LandingView } from "@/components/landing-view";
 import { ProcessingView } from "@/components/processing-view";
+import { useBackgroundMusic } from "@/hooks/use-background-music";
 
 export default function Page() {
   const router = useRouter();
-  const [isMuted, setIsMuted] = useState(true);
+  const { isMuted, toggleSound } = useBackgroundMusic();
   const [isSnowEnabled, setIsSnowEnabled] = useState(true);
   const [showPrompt, setShowPrompt] = useState(false);
   const [prompt, setPrompt] = useState("");
@@ -25,41 +26,13 @@ export default function Page() {
     null
   );
   const [rateLimitError, setRateLimitError] = useState<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Fetch rate limit status on mount
   useEffect(() => {
     getRateLimitStatus().then(setRateLimitInfo).catch(console.error);
   }, []);
 
-  useEffect(() => {
-    audioRef.current = new Audio(
-      "https://upload.wikimedia.org/wikipedia/commons/4/4d/Jingle_Bells_%28ISRC_USUAN1100187%29.mp3"
-    );
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.3;
 
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      if (isMuted) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play().catch((error) => {
-          console.log("Audio playback failed:", error);
-        });
-      }
-    }
-  }, [isMuted]);
-
-  const toggleSound = () => setIsMuted(!isMuted);
   const toggleSnow = () => setIsSnowEnabled(!isSnowEnabled);
   const togglePrompt = () => setShowPrompt(!showPrompt);
 

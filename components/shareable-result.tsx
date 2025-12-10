@@ -7,13 +7,14 @@ import { SnowEffect } from "@/components/snow-effect";
 import { Header } from "@/components/header";
 import BeforeAfterSlider from "@/components/ui/before-after-slider";
 import { PhotoResult } from "@/server/storage";
+import { useBackgroundMusic } from "@/hooks/use-background-music";
 
 interface ShareableResultProps {
   result: PhotoResult;
 }
 
 export function ShareableResult({ result }: ShareableResultProps) {
-  const [isMuted, setIsMuted] = useState(true);
+  const { isMuted, toggleSound } = useBackgroundMusic();
   const [isSnowEnabled, setIsSnowEnabled] = useState(true);
   const [aspectRatio, setAspectRatio] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
@@ -87,7 +88,7 @@ export function ShareableResult({ result }: ShareableResultProps) {
         isSnowEnabled={isSnowEnabled}
         showPrompt={false}
         showPromptButton={false}
-        onToggleSound={() => setIsMuted(!isMuted)}
+        onToggleSound={toggleSound}
         onToggleSnow={() => setIsSnowEnabled(!isSnowEnabled)}
         onTogglePrompt={() => {}}
       />
