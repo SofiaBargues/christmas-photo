@@ -32,11 +32,7 @@ export default function Page() {
     getRateLimitStatus().then(setRateLimitInfo).catch(console.error);
   }, []);
 
-  // useEffect(() => {
-  //   // Mocking the state as generating
-  //   setIsGenerating(true);
-  //   setView("processing");
-  // }, []);
+
 
   const toggleSnow = () => setIsSnowEnabled(!isSnowEnabled);
   const togglePrompt = () => setShowPrompt(!showPrompt);

@@ -29,10 +29,11 @@ export function ProcessingView() {
           <motion.div
             className="h-full bg-gradient-to-r from-[#D4AF37] via-[#F5E6D3] to-[#D4AF37] rounded-full"
             initial={{ width: "0%" }}
-            animate={{ width: "100%" }}
+            animate={{ width: ["0%", "50%", "75%", "90%", "95%", "98%"] }}
             transition={{
               duration: 50,
-              ease: "easeInOut",
+              times: [0, 0.2, 0.4, 0.6, 0.8, 1],
+              ease: "easeOut",
             }}
           />
         </div>
