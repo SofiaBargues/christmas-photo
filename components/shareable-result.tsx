@@ -99,8 +99,16 @@ export function ShareableResult({ result }: ShareableResultProps) {
           animate={{ opacity: 1 }}
           className="w-full flex flex-col items-center justify-center gap-2 md:gap-4 px-4 py-4 box-border"
         >
-          {/* Container 1: fixed viewport box */}
-          <div className="w-[80vw] sm:h-[60vh] h-[50vh] max-w-5xl max-h-[60vh] flex items-center justify-center perspective-1000">
+          {/* Container 1: fixed viewport box - uses min of 80vw and 50vh/60vh */}
+          <div
+            className="flex items-center justify-center perspective-1000"
+            style={{
+              width: "min(80vw, 50vh)",
+              height: "min(80vw, 50vh)",
+              maxWidth: "1024px",
+              maxHeight: "60vh",
+            }}
+          >
             {/* Container 2: aspect-ratio-aware box that fits inside container 1 */}
             <motion.div
               initial={{ rotateY: 90, opacity: 0 }}
